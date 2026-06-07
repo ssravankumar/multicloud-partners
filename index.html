@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MultiCloud.Partners | Multi-Cloud Architect & Consultant</title>
+  <meta name="description" content="Certified multi-cloud solution architect offering cloud migration, Zero Trust security, AI/ML advisory, and cloud advisory services across AWS, Azure, GCP, and Oracle." />
+  <link rel="canonical" href="https://multicloud.partners" />
+
+  <!-- Open Graph / LinkedIn sharing -->
+  <meta property="og:title" content="MultiCloud.Partners | Multi-Cloud Architect & Consultant" />
+  <meta property="og:description" content="Certified multi-cloud architect offering cloud migration, Zero Trust, AI/ML, and cloud advisory services across AWS, Azure, GCP, and Oracle." />
+  <meta property="og:url" content="https://multicloud.partners" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://multicloud.partners/og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MultiCloud.Partners | Multi-Cloud Architect & Consultant" />
+  <meta name="twitter:description" content="Vendor-neutral multi-cloud architecture, Zero Trust, and AI/ML advisory services." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0f1e;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --accent: #4f8ef7;
+      --accent-glow: rgba(79, 142, 247, 0.25);
+      --accent-2: #7c5cfc;
+      --surface: #111827;
+      --surface-2: #1a2235;
+      --border: rgba(255,255,255,0.07);
+      --text-muted: #94a3b8;
+      --max-w: 1100px;
+      --radius: 12px;
+    }
+
+    /* ===== UTILS ===== */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-accent { background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid rgba(79,142,247,0.3); }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 17px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f1f5f9;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #f1f5f9; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #e2e8f0; border-radius: 2px; transition: 0.3s; }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* animated mesh background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(79,142,247,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 60%, rgba(124,92,252,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-eyebrow { margin-bottom: 20px; }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 40px;
+      max-width: 500px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--accent-glow); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #e2e8f0;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+    /* cert logos on hero right */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .cert-card:hover { border-color: rgba(79,142,247,0.4); transform: translateX(4px); }
+    .cert-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .cert-info .cert-name { font-weight: 600; font-size: 14px; color: #f1f5f9; }
+    .cert-info .cert-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .cert-badge { margin-left: auto; }
+
+    /* stats strip */
+    .stats-strip {
+      margin-top: 48px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .stat-item .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .stat-item .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ===== SERVICES ===== */
+    #services {
+      padding: 100px 0;
+      background: var(--surface);
+    }
+    .services-header { text-align: center; margin-bottom: 60px; }
+    .services-header .section-desc { margin: 0 auto; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover {
+      border-color: rgba(79,142,247,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+    .service-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 12px;
+    }
+    .service-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ===== ABOUT ===== */
+    #about {
+      padding: 100px 0;
+      background: #0a0f1e;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-content .section-desc { margin-bottom: 32px; }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .cert-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+      transition: border-color 0.2s;
+    }
+    .cert-pill:hover { border-color: rgba(79,142,247,0.4); }
+    .cert-pill .emoji { font-size: 18px; }
+
+    /* timeline / approach */
+    .approach-list { display: flex; flex-direction: column; gap: 24px; }
+    .approach-item { display: flex; gap: 20px; }
+    .approach-num {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .approach-body h4 { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 4px; }
+    .approach-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== TECH STACK ===== */
+    #stack {
+      padding: 80px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .stack-header { text-align: center; margin-bottom: 48px; }
+    .tech-scroll {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .tech-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+      white-space: nowrap;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tech-chip:hover { border-color: rgba(79,142,247,0.4); transform: translateY(-2px); }
+
+    /* ===== AI/ML SECTION ===== */
+    .domain-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .domain-row strong { color: #e2e8f0; }
+    .domain-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    #aiml {
+      padding: 100px 0;
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+    #aiml::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(124,92,252,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 20% 70%, rgba(79,142,247,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .aiml-header { text-align: center; margin-bottom: 64px; }
+    .aiml-header .section-desc { margin: 0 auto; }
+
+    .aiml-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Platform comparison table */
+    .platform-table {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .platform-table-header {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, 60px);
+      gap: 8px;
+      padding: 14px 20px;
+      background: rgba(79,142,247,0.06);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    .platform-table-header span { text-align: center; }
+    .platform-row {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, 60px);
+      gap: 8px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .platform-row:last-child { border-bottom: none; }
+    .platform-row:hover { background: rgba(255,255,255,0.02); }
+    .platform-row .capability { font-weight: 500; color: #e2e8f0; }
+    .platform-row .cell { text-align: center; font-size: 15px; }
+    .cell-yes { color: #22c55e; }
+    .cell-partial { color: #f59e0b; }
+    .cell-no { color: #ef4444; opacity: 0.5; }
+
+    /* Adoption framework steps */
+    .aiml-framework { display: flex; flex-direction: column; gap: 0; }
+    .framework-step {
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .framework-step:last-child { border-bottom: none; }
+    .framework-step-num {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(79,142,247,0.2), rgba(124,92,252,0.2));
+      border: 1px solid rgba(79,142,247,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 13px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .framework-step-body h4 {
+      font-size: 14px; font-weight: 600; color: #f1f5f9; margin-bottom: 4px;
+    }
+    .framework-step-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .framework-step-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .ftag {
+      font-size: 10px; font-weight: 600; padding: 2px 8px;
+      border-radius: 4px; background: rgba(255,255,255,0.04);
+      color: var(--text-muted); border: 1px solid var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .aiml-grid { grid-template-columns: 1fr; }
+      .platform-table-header, .platform-row { grid-template-columns: 1fr repeat(4, 48px); gap: 4px; padding: 12px 14px; }
+      .service-card[style*="grid-column"] { grid-template-columns: 1fr !important; }
+    }
+
+    /* ===== LIVE ARCHITECTURE ===== */
+    #architecture {
+      padding: 100px 0;
+      background: #0a0f1e;
+      position: relative;
+      overflow: hidden;
+    }
+    #architecture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(79,142,247,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .arch-header { text-align: center; margin-bottom: 64px; }
+    .arch-header .section-desc { margin: 0 auto; }
+
+    /* diagram */
+    .arch-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* User node */
+    .arch-user {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+    .arch-user-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* connector lines */
+    .arch-line {
+      width: 2px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      opacity: 0.5;
+      position: relative;
+    }
+    .arch-line::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--accent-2);
+      opacity: 0.8;
+    }
+
+    /* LB node */
+    .arch-lb {
+      background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(124,92,252,0.15));
+      border: 1px solid rgba(79,142,247,0.4);
+      border-radius: 16px;
+      padding: 20px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .arch-lb-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    .arch-lb-sub { font-size: 12px; color: var(--text-muted); }
+    .arch-lb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px 12px;
+      background: rgba(79,142,247,0.15);
+      border: 1px solid rgba(79,142,247,0.3);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .pulse-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* fan-out lines */
+    .arch-fanout {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      margin: 0;
+      padding: 32px 0;
+    }
+    .arch-fanout::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(79,142,247,0.4) 20%, rgba(124,92,252,0.4) 80%, transparent);
+    }
+    .arch-fanout-line {
+      position: absolute;
+      top: 0;
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(180deg, rgba(79,142,247,0.5), rgba(124,92,252,0.3));
+    }
+
+    /* cloud backends */
+    .arch-backends {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    .arch-backend {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .arch-backend:hover {
+      border-color: rgba(79,142,247,0.4);
+      transform: translateY(-3px);
+    }
+    .arch-backend.active {
+      border-color: rgba(34,197,94,0.5);
+      box-shadow: 0 0 20px rgba(34,197,94,0.1);
+    }
+    .arch-backend-icon { font-size: 28px; margin-bottom: 10px; }
+    .arch-backend-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    .arch-backend-detail { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+    .arch-backend-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .status-healthy {
+      background: rgba(34,197,94,0.12);
+      color: #22c55e;
+      border: 1px solid rgba(34,197,94,0.25);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* traffic counter */
+    .arch-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+      width: 100%;
+    }
+    .arch-metric {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .arch-metric-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .arch-metric-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* strategy pill row */
+    .arch-strategy {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .strategy-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .strategy-pill .sp-icon { font-size: 16px; }
+
+    @media (max-width: 900px) {
+      .arch-backends { grid-template-columns: repeat(2, 1fr); }
+      .arch-metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .arch-backends { grid-template-columns: 1fr; }
+      .arch-metrics { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      padding: 100px 0;
+      background: #0a0f1e;
+      position: relative;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(79,142,247,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .contact-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner .section-title { margin-bottom: 16px; }
+    .contact-inner .section-desc { margin: 0 auto 48px; }
+
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: left;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: #1a2235; }
+    .form-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+    .form-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* contact alt links */
+    .contact-alts {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .contact-alt-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .contact-alt-link:hover { color: var(--accent); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .cert-grid { grid-template-columns: 1fr; }
+      .stats-strip { gap: 24px; }
+      .contact-form { padding: 24px; }
+    }
+
+    /* mobile nav open */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(10,15,30,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    /* form success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px;
+    }
+    .form-success .success-icon { font-size: 48px; margin-bottom: 16px; }
+    .form-success h3 { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .form-success p { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">MultiCloud<span>.Partners</span></a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#stack">Tech Stack</a></li>
+        <li><a href="#aiml">AI/ML</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="mobileNav">
+    <a href="#services" onclick="toggleMobileNav()">Services</a>
+    <a href="#about" onclick="toggleMobileNav()">About</a>
+    <a href="#stack" onclick="toggleMobileNav()">Tech Stack</a>
+    <a href="#aiml" onclick="toggleMobileNav()">AI/ML</a>
+    <a href="#architecture" onclick="toggleMobileNav()">Architecture</a>
+    <a href="#contact" onclick="toggleMobileNav()" style="color: var(--accent); font-weight: 600;">Get in Touch →</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="badge badge-accent">Available for Engagements</span>
+          </div>
+          <h1 class="hero-title">
+            Multi-Cloud<br/>
+            <span class="gradient">Architecture &</span><br/>
+            Advisory Services
+          </h1>
+          <p class="hero-desc">
+            I help enterprises design, migrate, and secure their cloud infrastructure across AWS, Azure, GCP, and Oracle — with deep expertise in data platforms and Zero Trust security.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn-primary">
+              Start a Conversation
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#services" class="btn-secondary">View Services</a>
+          </div>
+          <div class="stats-strip">
+            <div class="stat-item">
+              <div class="stat-num">4+</div>
+              <div class="stat-label">Cloud Certifications</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">15+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">3</div>
+              <div class="stat-label">Core Service Areas</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="cert-card">
+            <div class="cert-icon" style="background: rgba(255,153,0,0.12); border-color: rgba(255,153,0,0.25);">☁️</div>
+            <div class="cert-info">
+              <div class="cert-name">AWS Certified Solutions Architect</div>
+              <div class="cert-sub">Amazon Web Services</div>
+            </div>
+            <div class="cert-badge"><span class="badge badge-accent">Active</span></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon" style="background: rgba(0,120,212,0.12); border-color: rgba(0,120,212,0.25);">🔷</div>
+            <div class="cert-info">
+              <div class="cert-name">Azure Solutions Architect Expert</div>
+              <div class="cert-sub">Microsoft Azure</div>
+            </div>
+            <div class="cert-badge"><span class="badge badge-accent">Active</span></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon" style="background: rgba(52,168,83,0.12); border-color: rgba(52,168,83,0.25);">🔵</div>
+            <div class="cert-info">
+              <div class="cert-name">GCP Professional Cloud Architect</div>
+              <div class="cert-sub">Google Cloud Platform</div>
+            </div>
+            <div class="cert-badge"><span class="badge badge-accent">Active</span></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon" style="background: rgba(200,16,46,0.12); border-color: rgba(200,16,46,0.25);">🔴</div>
+            <div class="cert-info">
+              <div class="cert-name">Oracle Cloud Architect</div>
+              <div class="cert-sub">Oracle Cloud Infrastructure</div>
+            </div>
+            <div class="cert-badge"><span class="badge badge-accent">Active</span></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon" style="background: rgba(124,92,252,0.12); border-color: rgba(124,92,252,0.25);">📋</div>
+            <div class="cert-info">
+              <div class="cert-name">PMP — Project Management Professional</div>
+              <div class="cert-sub">PMI Certified</div>
+            </div>
+            <div class="cert-badge"><span class="badge badge-accent">Active</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header">
+        <div class="section-label">What I Do</div>
+        <h2 class="section-title">Services</h2>
+        <p class="section-desc">End-to-end cloud consulting from strategy through execution — built on real-world experience across all major cloud platforms.</p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card">
+          <div class="service-icon">🚀</div>
+          <h3 class="service-title">Multi-Cloud Development & Migrations</h3>
+          <p class="service-desc">
+            Modernize your infrastructure with cloud-native architecture. I design and execute migration strategies that minimize risk, reduce costs, and unlock the best of each cloud platform.
+          </p>
+          <div class="service-tags">
+            <span class="tag">AWS</span>
+            <span class="tag">Azure</span>
+            <span class="tag">GCP</span>
+            <span class="tag">Oracle OCI</span>
+            <span class="tag">Lift & Shift</span>
+            <span class="tag">Re-architecting</span>
+            <span class="tag">Serverless</span>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+          <div class="service-icon">🔒</div>
+          <h3 class="service-title">Zero Trust Adoption Strategies</h3>
+          <p class="service-desc">
+            Move beyond perimeter security. I help organizations design and implement Zero Trust frameworks — identity-first, least-privilege access, continuous verification — across hybrid and multi-cloud environments.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Zero Trust</span>
+            <span class="tag">IAM</span>
+            <span class="tag">SASE</span>
+            <span class="tag">mTLS</span>
+            <span class="tag">ZTNA</span>
+            <span class="tag">Compliance</span>
+            <span class="tag">Entra ID</span>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+          <div class="service-icon">🧭</div>
+          <h3 class="service-title">Cloud Advisory Services</h3>
+          <p class="service-desc">
+            Strategic cloud guidance for leaders and architects. From cloud-first roadmaps and vendor selection to FinOps and governance — I help you make the right decisions faster.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Cloud Strategy</span>
+            <span class="tag">FinOps</span>
+            <span class="tag">Governance</span>
+            <span class="tag">Data Architecture</span>
+            <span class="tag">Snowflake</span>
+            <span class="tag">Roadmapping</span>
+          </div>
+        </div>
+
+        <!-- Service 4 — full width -->
+        <div class="service-card" style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;">
+          <div>
+            <div class="service-icon">🤖</div>
+            <h3 class="service-title">AI/ML Vendor-Neutral Adoption Strategy</h3>
+            <p class="service-desc">
+              Enterprise AI without the lock-in. I design cloud-agnostic AI/ML architectures that let you run models on the right platform for each use case — SageMaker, Azure ML, Vertex AI, or OCI Data Science — while keeping your data and pipelines portable.
+            </p>
+            <div class="service-tags" style="margin-top: 16px;">
+              <span class="tag">SageMaker</span>
+              <span class="tag">Azure ML</span>
+              <span class="tag">Vertex AI</span>
+              <span class="tag">OCI Data Science</span>
+              <span class="tag">MLflow</span>
+              <span class="tag">Kubeflow</span>
+              <span class="tag">LLM Integration</span>
+              <span class="tag">RAG</span>
+              <span class="tag">GenAI</span>
+              <span class="tag">ONNX / Model Portability</span>
+            </div>
+          </div>
+          <div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;">Enterprise Domain Coverage</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="domain-row"><span class="domain-icon">🏦</span><div><strong>Financial Services</strong> — fraud detection, risk modeling, regulatory AI compliance (SR 11-7)</div></div>
+              <div class="domain-row"><span class="domain-icon">🏥</span><div><strong>Healthcare</strong> — clinical NLP, HIPAA-compliant AI pipelines, diagnostic imaging ML</div></div>
+              <div class="domain-row"><span class="domain-icon">🏭</span><div><strong>Manufacturing</strong> — predictive maintenance, defect detection, supply chain optimization</div></div>
+              <div class="domain-row"><span class="domain-icon">🛒</span><div><strong>Retail / E-Commerce</strong> — personalization engines, demand forecasting, inventory AI</div></div>
+              <div class="domain-row"><span class="domain-icon">⚡</span><div><strong>Energy / Utilities</strong> — smart grid analytics, asset performance, emissions modeling</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-content">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">Architecture expertise that spans every major cloud</h2>
+          <p class="section-desc">
+            I'm Sravan Kumar — a certified multi-cloud solution architect and PMP-certified technical project manager with deep experience designing, migrating, and securing enterprise cloud environments.
+            <br/><br/>
+            My background spans data architecture (Snowflake, Oracle, SQL Server, PostgreSQL) and cloud infrastructure across AWS, Azure, GCP, and Oracle — giving me a uniquely complete perspective on what it takes to move fast without breaking things.
+          </p>
+
+          <div class="cert-grid" style="margin-top: 8px;">
+            <div class="cert-pill"><span class="emoji">☁️</span> AWS Architect</div>
+            <div class="cert-pill"><span class="emoji">🔷</span> Azure Expert</div>
+            <div class="cert-pill"><span class="emoji">🔵</span> GCP Architect</div>
+            <div class="cert-pill"><span class="emoji">🔴</span> Oracle OCI</div>
+            <div class="cert-pill"><span class="emoji">📋</span> PMP Certified</div>
+            <div class="cert-pill"><span class="emoji">❄️</span> Snowflake</div>
+          </div>
+        </div>
+
+        <div class="about-approach">
+          <div class="section-label">My Approach</div>
+          <div class="approach-list">
+            <div class="approach-item">
+              <div class="approach-num">1</div>
+              <div class="approach-body">
+                <h4>Discover & Assess</h4>
+                <p>Understand your current architecture, business goals, and constraints before recommending anything.</p>
+              </div>
+            </div>
+            <div class="approach-item">
+              <div class="approach-num">2</div>
+              <div class="approach-body">
+                <h4>Design & Roadmap</h4>
+                <p>Build a cloud architecture blueprint and phased migration plan aligned to your timeline and budget.</p>
+              </div>
+            </div>
+            <div class="approach-item">
+              <div class="approach-num">3</div>
+              <div class="approach-body">
+                <h4>Execute & Migrate</h4>
+                <p>Lead hands-on implementation — infrastructure as code, automation, and testing at every stage.</p>
+              </div>
+            </div>
+            <div class="approach-item">
+              <div class="approach-num">4</div>
+              <div class="approach-body">
+                <h4>Optimize & Govern</h4>
+                <p>Establish ongoing FinOps practices, security baselines, and governance frameworks post-migration.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack">
+    <div class="container">
+      <div class="stack-header">
+        <div class="section-label">Technologies</div>
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-desc" style="margin: 0 auto;">The platforms and tools I work with every day.</p>
+      </div>
+      <div class="tech-scroll">
+        <div class="tech-chip">☁️ AWS</div>
+        <div class="tech-chip">🔷 Azure</div>
+        <div class="tech-chip">🔵 GCP</div>
+        <div class="tech-chip">🔴 Oracle OCI</div>
+        <div class="tech-chip">❄️ Snowflake</div>
+        <div class="tech-chip">🗄️ Oracle DB</div>
+        <div class="tech-chip">🐘 PostgreSQL</div>
+        <div class="tech-chip">📊 SQL Server</div>
+        <div class="tech-chip">🔒 Zero Trust / ZTNA</div>
+        <div class="tech-chip">🏗️ Terraform</div>
+        <div class="tech-chip">⚙️ Kubernetes</div>
+        <div class="tech-chip">🐳 Docker</div>
+        <div class="tech-chip">🔧 Ansible</div>
+        <div class="tech-chip">🔄 CI/CD Pipelines</div>
+        <div class="tech-chip">🔐 IAM / Entra ID</div>
+        <div class="tech-chip">📡 API Gateway</div>
+        <div class="tech-chip">⚡ Serverless</div>
+        <div class="tech-chip">📋 PMP / Agile</div>
+        <div class="tech-chip">🤖 SageMaker</div>
+        <div class="tech-chip">🧠 Azure ML</div>
+        <div class="tech-chip">🔬 Vertex AI</div>
+        <div class="tech-chip">📊 OCI Data Science</div>
+        <div class="tech-chip">🔄 MLflow</div>
+        <div class="tech-chip">🔗 LangChain / RAG</div>
+        <div class="tech-chip">📐 ONNX</div>
+        <div class="tech-chip">⚙️ Kubeflow</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI/ML SECTION -->
+  <section id="aiml">
+    <div class="container">
+      <div class="aiml-header">
+        <div class="section-label">AI / ML Strategy</div>
+        <h2 class="section-title">Enterprise AI — Without the Lock-In</h2>
+        <p class="section-desc">
+          Every major cloud has a strong AI/ML platform. The right answer isn't picking one — it's designing a portable architecture that runs the best model, on the best platform, for each enterprise domain.
+        </p>
+      </div>
+
+      <div class="aiml-grid">
+
+        <!-- Platform comparison -->
+        <div>
+          <p class="section-label" style="margin-bottom: 16px;">Platform Capability Matrix</p>
+          <div class="platform-table">
+            <div class="platform-table-header">
+              <span>Capability</span>
+              <span>AWS</span>
+              <span>Azure</span>
+              <span>GCP</span>
+              <span>OCI</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">Managed Training</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">LLM / GenAI APIs</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-partial">~</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">MLOps / Pipelines</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-partial">~</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">Model Registry</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">Serverless Inference</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-partial">~</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">GPU Spot / Preemptible</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-partial">~</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">Responsible AI Tools</span>
+              <span class="cell cell-partial">~</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-partial">~</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">HIPAA / FedRAMP</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span>
+            </div>
+            <div class="platform-row">
+              <span class="capability">ONNX / Open Standards</span>
+              <span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span><span class="cell cell-yes">✓</span>
+            </div>
+          </div>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px; text-align: center;">
+            ✓ Fully supported &nbsp;·&nbsp; ~ Partial / In Preview &nbsp;·&nbsp; ✗ Not available
+          </p>
+        </div>
+
+        <!-- Adoption framework -->
+        <div>
+          <p class="section-label" style="margin-bottom: 16px;">Enterprise Adoption Framework</p>
+          <div class="aiml-framework">
+            <div class="framework-step">
+              <div class="framework-step-num">1</div>
+              <div class="framework-step-body">
+                <h4>AI Readiness Assessment</h4>
+                <p>Audit data maturity, governance gaps, and regulatory constraints. Identify high-value AI use cases by domain and prioritize by ROI vs. risk.</p>
+                <div class="framework-step-tags">
+                  <span class="ftag">Data Governance</span><span class="ftag">Use Case Scoring</span><span class="ftag">Risk Assessment</span>
+                </div>
+              </div>
+            </div>
+            <div class="framework-step">
+              <div class="framework-step-num">2</div>
+              <div class="framework-step-body">
+                <h4>Vendor-Neutral Architecture Design</h4>
+                <p>Design ML pipelines using open standards (MLflow, ONNX, Kubeflow) so models are portable across SageMaker, Azure ML, and Vertex AI without rewriting.</p>
+                <div class="framework-step-tags">
+                  <span class="ftag">MLflow</span><span class="ftag">ONNX</span><span class="ftag">Kubeflow</span><span class="ftag">Containerized Inference</span>
+                </div>
+              </div>
+            </div>
+            <div class="framework-step">
+              <div class="framework-step-num">3</div>
+              <div class="framework-step-body">
+                <h4>Domain-Specific Model Strategy</h4>
+                <p>Select foundation models, fine-tuning approach, and RAG architecture tailored to your industry — financial regulations, clinical language, manufacturing sensor data.</p>
+                <div class="framework-step-tags">
+                  <span class="ftag">Fine-Tuning</span><span class="ftag">RAG</span><span class="ftag">Domain LLMs</span><span class="ftag">Prompt Engineering</span>
+                </div>
+              </div>
+            </div>
+            <div class="framework-step">
+              <div class="framework-step-num">4</div>
+              <div class="framework-step-body">
+                <h4>Responsible AI & Compliance</h4>
+                <p>Embed explainability, bias detection, and audit logging from day one. Map to regulatory frameworks: SR 11-7 (finance), HIPAA (health), EU AI Act.</p>
+                <div class="framework-step-tags">
+                  <span class="ftag">Explainability</span><span class="ftag">Bias Audit</span><span class="ftag">SR 11-7</span><span class="ftag">EU AI Act</span>
+                </div>
+              </div>
+            </div>
+            <div class="framework-step">
+              <div class="framework-step-num">5</div>
+              <div class="framework-step-body">
+                <h4>MLOps & Continuous Improvement</h4>
+                <p>Establish model monitoring, drift detection, retraining pipelines, and A/B testing infrastructure for sustained production performance.</p>
+                <div class="framework-step-tags">
+                  <span class="ftag">Model Monitoring</span><span class="ftag">Drift Detection</span><span class="ftag">CI/CD for ML</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE ARCHITECTURE -->
+  <section id="architecture">
+    <div class="container">
+      <div class="arch-header">
+        <div class="section-label">Live Infrastructure</div>
+        <h2 class="section-title">Vendor-Neutral. Globally Resilient.</h2>
+        <p class="section-desc">
+          This very website runs simultaneously on all four major clouds. A global load balancer distributes traffic via round robin — if any cloud goes down, requests automatically fail over to the next healthy backend. No single vendor lock-in.
+        </p>
+      </div>
+
+      <div class="arch-diagram">
+
+        <!-- User -->
+        <div class="arch-user">
+          <div class="arch-user-box">
+            🌐 &nbsp; Global Users
+          </div>
+        </div>
+
+        <!-- Line down to LB -->
+        <div class="arch-line"></div>
+
+        <!-- Load Balancer -->
+        <div class="arch-lb">
+          <div class="arch-lb-title">⚡ Cloudflare Global Load Balancer</div>
+          <div class="arch-lb-sub">200+ edge PoPs worldwide · Round Robin + Health Check Failover</div>
+          <div class="arch-lb-badge">
+            <span class="pulse-dot"></span>
+            Active · Serving requests
+          </div>
+        </div>
+
+        <!-- Fan-out visual -->
+        <div style="width:100%; position:relative; height:48px; margin: 0;">
+          <svg width="100%" height="48" viewBox="0 0 800 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="400" y1="0" x2="100" y2="48" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="400" y1="0" x2="267" y2="48" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="400" y1="0" x2="533" y2="48" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="400" y1="0" x2="700" y2="48" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#7c5cfc" stop-opacity="0.4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Cloud backends -->
+        <div class="arch-backends" id="archBackends">
+          <div class="arch-backend active" id="backend-0">
+            <div class="arch-backend-icon">☁️</div>
+            <div class="arch-backend-name">AWS</div>
+            <div class="arch-backend-detail">S3 + CloudFront<br/>us-east-1</div>
+            <span class="arch-backend-status status-healthy">
+              <span class="status-dot"></span> Healthy
+            </span>
+          </div>
+          <div class="arch-backend" id="backend-1">
+            <div class="arch-backend-icon">🔷</div>
+            <div class="arch-backend-name">Azure</div>
+            <div class="arch-backend-detail">Static Web Apps<br/>eastus2</div>
+            <span class="arch-backend-status status-healthy">
+              <span class="status-dot"></span> Healthy
+            </span>
+          </div>
+          <div class="arch-backend" id="backend-2">
+            <div class="arch-backend-icon">🔵</div>
+            <div class="arch-backend-name">GCP</div>
+            <div class="arch-backend-detail">Firebase Hosting<br/>us-central1</div>
+            <span class="arch-backend-status status-healthy">
+              <span class="status-dot"></span> Healthy
+            </span>
+          </div>
+          <div class="arch-backend" id="backend-3">
+            <div class="arch-backend-icon">🔴</div>
+            <div class="arch-backend-name">Oracle OCI</div>
+            <div class="arch-backend-detail">Object Storage<br/>us-ashburn-1</div>
+            <span class="arch-backend-status status-healthy">
+              <span class="status-dot"></span> Healthy
+            </span>
+          </div>
+        </div>
+
+        <!-- Traffic metrics (animated) -->
+        <div class="arch-metrics">
+          <div class="arch-metric">
+            <div class="arch-metric-num" id="metric-rr">AWS</div>
+            <div class="arch-metric-label">Current Active Backend</div>
+          </div>
+          <div class="arch-metric">
+            <div class="arch-metric-num" id="metric-req">0</div>
+            <div class="arch-metric-label">Requests Routed (demo)</div>
+          </div>
+          <div class="arch-metric">
+            <div class="arch-metric-num">4/4</div>
+            <div class="arch-metric-label">Backends Healthy</div>
+          </div>
+          <div class="arch-metric">
+            <div class="arch-metric-num">~12ms</div>
+            <div class="arch-metric-label">Avg Edge Latency</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Strategy pills -->
+      <div class="arch-strategy">
+        <div class="strategy-pill"><span class="sp-icon">🔄</span> Round Robin Distribution</div>
+        <div class="strategy-pill"><span class="sp-icon">❤️</span> Active Health Checks</div>
+        <div class="strategy-pill"><span class="sp-icon">⚡</span> Automatic Failover</div>
+        <div class="strategy-pill"><span class="sp-icon">🔓</span> Zero Vendor Lock-In</div>
+        <div class="strategy-pill"><span class="sp-icon">🌍</span> 200+ Global Edge PoPs</div>
+        <div class="strategy-pill"><span class="sp-icon">💰</span> 100% Free Tier</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="section-label">Let's Work Together</div>
+        <h2 class="section-title">Ready to modernize<br/>your cloud?</h2>
+        <p class="section-desc">Tell me about your project and I'll get back to you within one business day.</p>
+
+        <div class="contact-form">
+          <form id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Work Email</label>
+                <input type="email" id="email" name="email" placeholder="jane@company.com" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="company">Company / Organization</label>
+              <input type="text" id="company" name="company" placeholder="Acme Corp" />
+            </div>
+            <div class="form-group">
+              <label for="service">Service You're Interested In</label>
+              <select id="service" name="service" required>
+                <option value="" disabled selected>Select a service…</option>
+                <option value="migration">Multi-Cloud Development &amp; Migrations</option>
+                <option value="zerotrust">Zero Trust Adoption Strategy</option>
+                <option value="advisory">Cloud Advisory Services</option>
+                <option value="aiml">AI/ML Vendor-Neutral Adoption Strategy</option>
+                <option value="other">Other / Not Sure Yet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Tell me about your project</label>
+              <textarea id="message" name="message" placeholder="Briefly describe your current environment, goals, and timeline…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message →</button>
+          </form>
+
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">✅</div>
+            <h3>Message Sent!</h3>
+            <p>Thanks for reaching out. I'll be in touch within one business day.</p>
+          </div>
+        </div>
+
+        <div class="contact-alts">
+          <a href="mailto:ssravan.kumar@gmail.com" class="contact-alt-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            ssravan.kumar@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/sravankumar" target="_blank" class="contact-alt-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 MultiCloud.Partners &nbsp;·&nbsp; Sravan Kumar &nbsp;·&nbsp; Multi-Cloud Solution Architect &nbsp;·&nbsp; <a href="mailto:ssravan.kumar@gmail.com">ssravan.kumar@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('open');
+    }
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('mobileNav');
+      const hamburger = document.querySelector('.hamburger');
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    });
+
+    // Form submit handler
+    // Replace the mailto fallback below with your form backend (Formspree, EmailJS, etc.)
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  const data = new FormData(form);
+
+  const response = await fetch('https://formspree.io/f/https://formspree.io/f/xqeoppak', {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  if (response.ok) {
+    form.style.display = 'none';
+    success.style.display = 'block';
+  } else {
+    alert('Something went wrong. Please email ssravan.kumar@gmail.com directly.');
+  }
+}
+
+ 
+    // ── Architecture diagram — round robin animation ──────────────────────────
+    const backendNames = ['AWS', 'Azure', 'GCP', 'Oracle'];
+    let rrIndex = 0;
+    let reqCount = 0;
+
+    function tickRoundRobin() {
+      // Remove active from all
+      document.querySelectorAll('.arch-backend').forEach(b => b.classList.remove('active'));
+
+      // Activate current
+      const current = document.getElementById(`backend-${rrIndex}`);
+      if (current) current.classList.add('active');
+
+      // Update metrics
+      const metricRR = document.getElementById('metric-rr');
+      const metricReq = document.getElementById('metric-req');
+      if (metricRR) metricRR.textContent = backendNames[rrIndex];
+      reqCount++;
+      if (metricReq) metricReq.textContent = reqCount;
+
+      // Advance round robin
+      rrIndex = (rrIndex + 1) % 4;
+    }
+
+    // Start animating when the section is in view
+    let archInterval = null;
+    const archSection = document.getElementById('architecture');
+    const archObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !archInterval) {
+          archInterval = setInterval(tickRoundRobin, 1800);
+        } else if (!entry.isIntersecting && archInterval) {
+          clearInterval(archInterval);
+          archInterval = null;
+        }
+      });
+    }, { threshold: 0.2 });
+    if (archSection) archObserver.observe(archSection);
+
+    // ── Scroll animation — fade in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.style.opacity = '1';
+          el.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.service-card, .cert-card, .approach-item, .tech-chip, .cert-pill').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
