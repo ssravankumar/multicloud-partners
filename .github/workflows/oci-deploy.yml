@@ -44,10 +44,48 @@ jobs:
           echo "${OCI_CLI_KEY_CONTENT}" > ~/.oci/oci_api_key.pem
           chmod 600 ~/.oci/oci_api_key.pem ~/.oci/config
 
+      - name: Validate secrets are set
+        env:
+          NS: ${{ secrets.OCI_NAMESPACE }}
+          REGION: ${{ secrets.OCI_CLI_REGION }}
+          USR: ${{ secrets.OCI_CLI_USER }}
+          TEN: ${{ secrets.OCI_CLI_TENANCY }}
+          FP: ${{ secrets.OCI_CLI_FINGERPRINT }}
+        run: |
+          echo "=== Secret presence check (values masked) ==="
+          echo "OCI_NAMESPACE length: ${#NS}  (should be ~10-20)"
+          echo "OCI_NAMESPACE first 3 chars: '${NS:0:3}'"
+          echo "OCI_CLI_REGION:      '$REGION'  (should be e.g. us-ashburn-1)"
+          echo "OCI_CLI_USER length: ${#USR}  (should be ~80+)"
+          echo "OCI_CLI_TENANCY length: ${#TEN}  (should be ~80+)"
+          echo "OCI_CLI_FINGERPRINT length: ${#FP}  (should be 47)"
+          echo ""
+          if [ -z "$NS" ]; then
+            echo "❌ FATAL: OCI_NAMESPACE secret is empty or not set."
+            echo "   Fix: GitHub repo → Settings → Secrets → confirm 'OCI_NAMESPACE' exists with the namespace value from OCI Console → Bucket → top of page."
+            exit 1
+          fi
+          if [ -z "$REGION" ]; then
+            echo "❌ FATAL: OCI_CLI_REGION is empty"
+            exit 1
+          fi
+          echo "✅ All secrets appear to be set"
+
+      - name: List buckets (verify auth + permissions)
+        run: |
+          echo "=== Listing buckets in your tenancy ==="
+          oci os bucket list --compartment-id ${{ secrets.OCI_CLI_TENANCY }} --query 'data[*].name' --raw-output || true
+          echo ""
+          echo "=== Checking the multicloud-partners bucket directly ==="
+          oci os bucket get \
+            --bucket-name multicloud-partners \
+            --namespace-name ${{ secrets.OCI_NAMESPACE }} \
+            --query 'data.{name:name,namespace:namespace,compartment:"compartment-id"}' || true
+
       - name: Upload index.html
         run: |
           oci os object put \
-            --namespace-name ${{ secrets.OCI_NAMESPACE }} \
+            --namespace-name "${{ secrets.OCI_NAMESPACE }}" \
             --bucket-name multicloud-partners \
             --name index.html \
             --file index.html \
@@ -58,4 +96,3 @@ jobs:
       - name: Confirm deployment
         run: |
           echo "Deployed to: https://objectstorage.${{ secrets.OCI_CLI_REGION }}.oraclecloud.com/n/${{ secrets.OCI_NAMESPACE }}/b/multicloud-partners/o/index.html"
-
