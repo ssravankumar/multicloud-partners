@@ -1,0 +1,61 @@
+# .github/workflows/oci-deploy.yml
+# Auto-deploys index.html to Oracle OCI Object Storage on every push to main
+# Save in your repo at: .github/workflows/oci-deploy.yml
+
+name: Deploy to Oracle OCI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/oci-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-oci:
+    name: Upload to OCI Object Storage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OCI CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install oci-cli
+
+      - name: Configure OCI credentials
+        env:
+          OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+          OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+          OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+          OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+        run: |
+          mkdir -p ~/.oci
+          cat > ~/.oci/config <<EOF
+          [DEFAULT]
+          user=${OCI_CLI_USER}
+          fingerprint=${OCI_CLI_FINGERPRINT}
+          tenancy=${OCI_CLI_TENANCY}
+          region=${OCI_CLI_REGION}
+          key_file=~/.oci/oci_api_key.pem
+          EOF
+          echo "${OCI_CLI_KEY_CONTENT}" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem ~/.oci/config
+
+      - name: Upload index.html
+        run: |
+          oci os object put \
+            --namespace-name ${{ secrets.OCI_NAMESPACE }} \
+            --bucket-name multicloud-partners \
+            --name index.html \
+            --file index.html \
+            --content-type text/html \
+            --cache-control "public, max-age=300" \
+            --force
+
+      - name: Confirm deployment
+        run: |
+          echo "Deployed to: https://objectstorage.${{ secrets.OCI_CLI_REGION }}.oraclecloud.com/n/${{ secrets.OCI_NAMESPACE }}/b/multicloud-partners/o/index.html"
+
