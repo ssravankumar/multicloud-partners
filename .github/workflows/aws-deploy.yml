@@ -1,0 +1,41 @@
+# .github/workflows/aws-deploy.yml
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/aws-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-aws:
+    name: Deploy to S3 + CloudFront
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Sync index.html to S3
+        run: |
+          aws s3 cp index.html s3://multicloud-partners/index.html \
+            --content-type "text/html" \
+            --cache-control "public, max-age=300"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/index.html" "/"
+
+      - name: Confirm deployment
+        run: |
+          echo "S3 URL:         http://multicloud-partners.s3-website-us-east-1.amazonaws.com"
+          echo "CloudFront URL: https://${{ secrets.CLOUDFRONT_DOMAIN }}"
