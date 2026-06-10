@@ -1559,11 +1559,10 @@
     const contactEmail = _emU + '@' + _emD;
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Wire up the mailto links, but never display the address itself —
+      // visible text stays "Email me" / "Contact".
       document.querySelectorAll('.js-email-link').forEach(a => {
         a.href = 'mailto:' + contactEmail;
-      });
-      document.querySelectorAll('.js-email-text').forEach(s => {
-        s.textContent = contactEmail;
       });
     });
 
