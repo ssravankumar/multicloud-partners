@@ -1130,7 +1130,7 @@
           <div class="section-label">About Me</div>
           <h2 class="section-title">Architecture expertise that spans every major cloud</h2>
           <p class="section-desc">
-            I'm Sravan Kumar — a certified multi-cloud solution architect and PMP-certified technical project manager with deep experience designing, migrating, and securing enterprise cloud environments.
+            I'm a certified multi-cloud solution architect and PMP-certified technical project manager with deep experience designing, migrating, and securing enterprise cloud environments.
             <br/><br/>
             My background spans data architecture (Snowflake, Oracle, SQL Server, PostgreSQL) and cloud infrastructure across AWS, Azure, GCP, and Oracle — giving me a uniquely complete perspective on what it takes to move fast without breaking things.
           </p>
@@ -1522,7 +1522,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
             <span class="js-email-text">Email me</span>
           </a>
-          <a href="https://linkedin.com/in/sravankumar" target="_blank" class="contact-alt-link">
+          <a href="#contact" class="contact-alt-link js-linkedin-link" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
@@ -1533,7 +1533,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 MultiCloud.Partners &nbsp;·&nbsp; Sravan Kumar &nbsp;·&nbsp; Multi-Cloud Solution Architect &nbsp;·&nbsp; <a href="#contact" class="js-email-link"><span class="js-email-text">Contact</span></a></p>
+    <p>© 2026 MultiCloud.Partners &nbsp;·&nbsp; Multi-Cloud Solution Architect &nbsp;·&nbsp; <a href="#contact" class="js-email-link"><span class="js-email-text">Contact</span></a></p>
   </footer>
 
   <script>
@@ -1554,15 +1554,19 @@
 
     // ── Contact email — assembled at runtime so the address never appears
     //    in the static HTML (defeats spam-bot scrapers) ──────────────────────
-    const _emU = ['ssravan', 'kumar'].join('.');
-    const _emD = ['gmail', 'com'].join('.');
-    const contactEmail = _emU + '@' + _emD;
+    // Contact details are base64-encoded so neither the email, the name,
+    // nor the LinkedIn handle appear anywhere in the page source.
+    const contactEmail = atob('c3NyYXZhbi5rdW1hckBnbWFpbC5jb20=');
+    const linkedinUrl = atob('aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL3NyYXZhbi1rdW1hci1zdW5rdS1iYTk3OTY2Lw==');
 
     document.addEventListener('DOMContentLoaded', () => {
       // Wire up the mailto links, but never display the address itself —
       // visible text stays "Email me" / "Contact".
       document.querySelectorAll('.js-email-link').forEach(a => {
         a.href = 'mailto:' + contactEmail;
+      });
+      document.querySelectorAll('.js-linkedin-link').forEach(a => {
+        a.href = linkedinUrl;
       });
     });
 
