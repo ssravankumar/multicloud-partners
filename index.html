@@ -1518,9 +1518,9 @@
         </div>
 
         <div class="contact-alts">
-          <a href="mailto:ssravan.kumar@gmail.com" class="contact-alt-link">
+          <a href="#contact" class="contact-alt-link js-email-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-            ssravan.kumar@gmail.com
+            <span class="js-email-text">Email me</span>
           </a>
           <a href="https://linkedin.com/in/sravankumar" target="_blank" class="contact-alt-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
@@ -1533,7 +1533,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 MultiCloud.Partners &nbsp;·&nbsp; Sravan Kumar &nbsp;·&nbsp; Multi-Cloud Solution Architect &nbsp;·&nbsp; <a href="mailto:ssravan.kumar@gmail.com">ssravan.kumar@gmail.com</a></p>
+    <p>© 2026 MultiCloud.Partners &nbsp;·&nbsp; Sravan Kumar &nbsp;·&nbsp; Multi-Cloud Solution Architect &nbsp;·&nbsp; <a href="#contact" class="js-email-link"><span class="js-email-text">Contact</span></a></p>
   </footer>
 
   <script>
@@ -1552,8 +1552,23 @@
       }
     });
 
+    // ── Contact email — assembled at runtime so the address never appears
+    //    in the static HTML (defeats spam-bot scrapers) ──────────────────────
+    const _emU = ['ssravan', 'kumar'].join('.');
+    const _emD = ['gmail', 'com'].join('.');
+    const contactEmail = _emU + '@' + _emD;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.js-email-link').forEach(a => {
+        a.href = 'mailto:' + contactEmail;
+      });
+      document.querySelectorAll('.js-email-text').forEach(s => {
+        s.textContent = contactEmail;
+      });
+    });
+
     // Form submit handler — posts to Formspree
-    // Formspree endpoint: https://formspree.io/f/maqzbepl (account: ssravan.kumar@gmail.com)
+    // Formspree endpoint: https://formspree.io/f/maqzbepl
 async function handleSubmit(e) {
   e.preventDefault();
   const form = document.getElementById('contactForm');
@@ -1585,13 +1600,13 @@ async function handleSubmit(e) {
           detail = '\n' + json.errors.map(err => err.message || err.field || err).join('\n');
         }
       } catch { /* response wasn't JSON, ignore */ }
-      alert('Could not send message (server returned ' + response.status + ').' + detail + '\nPlease email ssravan.kumar@gmail.com directly.');
+      alert('Could not send message (server returned ' + response.status + ').' + detail + '\nPlease email ' + contactEmail + ' directly.');
       submitBtn.disabled = false;
       submitBtn.textContent = originalLabel;
     }
   } catch (err) {
     // Network error or fetch threw
-    alert('Could not send message: ' + err.message + '\nPlease email ssravan.kumar@gmail.com directly.');
+    alert('Could not send message: ' + err.message + '\nPlease email ' + contactEmail + ' directly.');
     submitBtn.disabled = false;
     submitBtn.textContent = originalLabel;
   }
