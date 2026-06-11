@@ -1,0 +1,10 @@
+{
+  "name": "multicloud-partners",
+  "version": "1.0.0",
+  "description": "Express.js Lambda handler — serves index.html for multicloud.partners AWS backend",
+  "main": "server.js",
+  "dependencies": {
+    "@vendia/serverless-express": "^4.10.4",
+    "express": "^4.19.2"
+  }
+}
