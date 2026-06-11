@@ -1,0 +1,64 @@
+# .github/workflows/firebase-deploy.yml
+# Auto-deploys index.html to GCP Firebase Hosting on every push to main
+# Save in your repo at: .github/workflows/firebase-deploy.yml
+
+name: Deploy to GCP Firebase
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/firebase-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-firebase:
+    name: Deploy to Firebase Hosting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Create firebase.json
+        run: |
+          cat > firebase.json <<'EOF'
+          {
+            "hosting": {
+              "public": ".",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**",
+                "*.md",
+                "*.conf",
+                "*.yml",
+                "*.docx",
+                "cloudflare-worker*.js"
+              ],
+              "rewrites": [
+                { "source": "**", "destination": "/index.html" }
+              ],
+              "headers": [
+                {
+                  "source": "index.html",
+                  "headers": [
+                    { "key": "Cache-Control", "value": "public, max-age=300" }
+                  ]
+                }
+              ]
+            }
+          }
+          EOF
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: multicloud-partners
+          channelId: live
