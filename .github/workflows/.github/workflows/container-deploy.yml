@@ -38,7 +38,7 @@ on:
 # GCP_SERVICE_ACCOUNT        JSON key for service account with run.admin + artifactregistry.admin
 # GCP_PROJECT_ID             e.g. multicloud-partners-abc123
 #
-# OCI_VM_IP                  Public IP of the Ampere A1 instance
+# OCI_VM_IP                  (skipped — no A1 capacity; uncomment deploy-oci job when ready)
 # OCI_VM_USER                opc  (Oracle Linux)  or  ubuntu  (Ubuntu image)
 # OCI_SSH_PRIVATE_KEY        Private key matching the public key added at VM creation
 # ─────────────────────────────────────────────────────────────────────────────
@@ -171,30 +171,32 @@ jobs:
             --quiet
 
   # ── 5. OCI — Ampere A1 VM (Docker via SSH) ──────────────────────────────────
-  deploy-oci:
-    name: Deploy → OCI Ampere A1 VM
-    needs: build
-    runs-on: ubuntu-latest
-
-    env:
-      GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/multicloud-partners
-
-    steps:
-      - name: SSH into VM, pull and restart container
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.OCI_VM_IP }}
-          username: ${{ secrets.OCI_VM_USER }}
-          key: ${{ secrets.OCI_SSH_PRIVATE_KEY }}
-          envs: GHCR_IMAGE
-          script: |
-            set -e
-            docker pull ${GHCR_IMAGE}:latest
-            docker stop  multicloud-partners 2>/dev/null || true
-            docker rm    multicloud-partners 2>/dev/null || true
-            docker run -d \
-              --name multicloud-partners \
-              --restart always \
-              -p 80:80 \
-              ${GHCR_IMAGE}:latest
-            echo "Status: $(docker inspect --format='{{.State.Status}}' multicloud-partners)"
+  # SKIPPED: No A1.Flex capacity available in us-ashburn-1 (all ADs tried).
+  # Uncomment this job and add OCI_VM_IP, OCI_VM_USER, OCI_SSH_PRIVATE_KEY
+  # secrets when OCI capacity becomes available.
+  #
+  # deploy-oci:
+  #   name: Deploy → OCI Ampere A1 VM
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/multicloud-partners
+  #   steps:
+  #     - name: SSH into VM, pull and restart container
+  #       uses: appleboy/ssh-action@v1.0.3
+  #       with:
+  #         host: ${{ secrets.OCI_VM_IP }}
+  #         username: ${{ secrets.OCI_VM_USER }}
+  #         key: ${{ secrets.OCI_SSH_PRIVATE_KEY }}
+  #         envs: GHCR_IMAGE
+  #         script: |
+  #           set -e
+  #           docker pull ${GHCR_IMAGE}:latest
+  #           docker stop  multicloud-partners 2>/dev/null || true
+  #           docker rm    multicloud-partners 2>/dev/null || true
+  #           docker run -d \
+  #             --name multicloud-partners \
+  #             --restart always \
+  #             -p 80:80 \
+  #             ${GHCR_IMAGE}:latest
+  #           echo "Status: $(docker inspect --format='{{.State.Status}}' multicloud-partners)"
