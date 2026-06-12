@@ -163,7 +163,7 @@ jobs:
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
-            --port 80 \
+            --port 8080 \
             --memory 512Mi \
             --cpu 1 \
             --min-instances 0 \
