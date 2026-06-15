@@ -159,7 +159,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy multicloud-partners-container \
+          gcloud run deploy multicloud-partners \
             --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest \
             --platform managed \
             --region us-east4 \
@@ -170,6 +170,13 @@ jobs:
             --min-instances 0 \
             --max-instances 1 \
             --quiet
+
+      - name: Grant public access (allUsers invoker)
+        run: |
+          gcloud run services add-iam-policy-binding multicloud-partners \
+            --region us-east4 \
+            --member="allUsers" \
+            --role="roles/run.invoker"
 
   # ── 5. OCI — Ampere A1 VM (Docker via SSH) ──────────────────────────────────
   # SKIPPED: No A1.Flex capacity available in us-ashburn-1 (all ADs tried).
