@@ -98,6 +98,7 @@ jobs:
         run: |
           mkdir -p public
           cp index.html public/
+          cp personas.html public/
           zip -r function.zip server.js package.json node_modules/ public/
           aws lambda update-function-code \
             --function-name "${{ secrets.AWS_LAMBDA_FUNCTION_NAME }}" \
@@ -145,23 +146,23 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+        run: gcloud auth configure-docker us-east4-docker.pkg.dev --quiet
 
       - name: Retag GHCR image → Artifact Registry, push
         run: |
           docker pull ghcr.io/${{ github.repository_owner }}/multicloud-partners:latest
           docker tag \
             ghcr.io/${{ github.repository_owner }}/multicloud-partners:latest \
-            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
+            us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
           docker push \
-            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
+            us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy multicloud-partners-container \
-            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest \
+            --image us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest \
             --platform managed \
-            --region us-central1 \
+            --region us-east4 \
             --allow-unauthenticated \
             --port 8080 \
             --memory 512Mi \
