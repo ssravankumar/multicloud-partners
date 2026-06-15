@@ -146,21 +146,21 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker us-east4-docker.pkg.dev --quiet
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       - name: Retag GHCR image → Artifact Registry, push
         run: |
           docker pull ghcr.io/${{ github.repository_owner }}/multicloud-partners:latest
           docker tag \
             ghcr.io/${{ github.repository_owner }}/multicloud-partners:latest \
-            us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
+            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
           docker push \
-            us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
+            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy multicloud-partners-container \
-            --image us-east4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest \
+            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/multicloud-partners/app:latest \
             --platform managed \
             --region us-east4 \
             --allow-unauthenticated \
