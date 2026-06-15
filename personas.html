@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Entitlements by Persona | MultiCloud.Partners</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0a0f1e; color: #e2e8f0; min-height: 100vh; }
+
+    header {
+      background: linear-gradient(135deg, #0a0f1e 0%, #111827 100%);
+      border-bottom: 1px solid #1e293b;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header a { color: #60a5fa; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.1rem; }
+    header a:hover { color: #93c5fd; }
+    .back-link { font-size: 0.85rem; color: #94a3b8; text-decoration: none; }
+    .back-link:hover { color: #e2e8f0; }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+    }
+    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .hero h1 span { background: linear-gradient(90deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: #94a3b8; font-size: 0.95rem; max-width: 560px; margin: 0 auto; }
+
+    /* Persona selector */
+    .persona-tabs {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;
+      padding: 1.5rem 2rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .tab {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.2rem; border-radius: 2rem;
+      border: 1px solid #1e293b; background: #111827;
+      cursor: pointer; font-size: 0.85rem; font-weight: 500;
+      transition: all 0.2s;
+      color: #94a3b8;
+    }
+    .tab:hover { border-color: #3b82f6; color: #e2e8f0; }
+    .tab.active { border-color: #3b82f6; background: #1e3a5f; color: #60a5fa; }
+    .tab .avatar { font-size: 1.1rem; }
+
+    /* Main grid */
+    .content { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+    .persona-header {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: #111827; border: 1px solid #1e293b; border-radius: 12px;
+      padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+    }
+    .persona-avatar { font-size: 2.5rem; line-height: 1; }
+    .persona-info h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; }
+    .persona-info .role { color: #94a3b8; font-size: 0.85rem; margin-top: 0.2rem; }
+    .persona-info .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tag { font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 1rem; background: #1e293b; color: #94a3b8; }
+    .tag.warn { background: #451a03; color: #fb923c; }
+    .tag.ok { background: #052e16; color: #4ade80; }
+
+    /* Cloud grid */
+    .cloud-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+
+    .cloud-card {
+      background: #111827; border: 1px solid #1e293b; border-radius: 12px;
+      overflow: hidden;
+    }
+    .cloud-card-header {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 1rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600;
+      border-bottom: 1px solid #1e293b;
+    }
+    .cloud-icon { font-size: 1.2rem; }
+    .cloud-card-header .access-badge {
+      margin-left: auto; font-size: 0.7rem; padding: 0.15rem 0.5rem;
+      border-radius: 1rem; font-weight: 600;
+    }
+    .access-full { background: #052e16; color: #4ade80; }
+    .access-read { background: #1e1b4b; color: #a78bfa; }
+    .access-limited { background: #451a03; color: #fb923c; }
+    .access-none { background: #1f1f1f; color: #6b7280; }
+
+    .service-list { padding: 0.75rem 1rem; list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .service-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+    .service-list li .dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .dot-green { background: #4ade80; }
+    .dot-yellow { background: #facc15; }
+    .dot-red { background: #f87171; }
+    .dot-gray { background: #4b5563; }
+
+    .mfa-notice {
+      margin-top: 0.75rem; padding: 0.6rem 1rem;
+      background: #1e293b; border-top: 1px solid #1e293b;
+      font-size: 0.75rem; color: #94a3b8;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex; gap: 1.25rem; flex-wrap: wrap;
+      padding: 1rem 0 1.5rem; font-size: 0.78rem; color: #94a3b8;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/">MultiCloud.Partners</a>
+  <a href="/" class="back-link">← Back to home</a>
+</header>
+
+<div class="hero">
+  <h1>Cloud Entitlements <span>by Persona</span></h1>
+  <p>Simulated IAM entitlements across AWS, Azure, GCP, and Oracle Cloud — showing how access varies by role and compliance boundary.</p>
+</div>
+
+<div class="persona-tabs" id="tabs"></div>
+
+<div class="content">
+  <div class="legend">
+    <div class="legend-item"><span class="dot dot-green" style="width:9px;height:9px;border-radius:50%;display:inline-block"></span> Full access</div>
+    <div class="legend-item"><span class="dot dot-yellow" style="width:9px;height:9px;border-radius:50%;display:inline-block"></span> Read-only</div>
+    <div class="legend-item"><span class="dot dot-red" style="width:9px;height:9px;border-radius:50%;display:inline-block"></span> Restricted</div>
+    <div class="legend-item"><span class="dot dot-gray" style="width:9px;height:9px;border-radius:50%;display:inline-block"></span> No access</div>
+  </div>
+  <div id="persona-header"></div>
+  <div class="cloud-grid" id="cloud-grid"></div>
+</div>
+
+<script>
+const PERSONAS = [
+  {
+    id: "developer",
+    label: "Cloud Developer",
+    avatar: "👩‍💻",
+    title: "Cloud Developer",
+    role: "Engineering · Dev/Test environments · No production write",
+    tags: [
+      { text: "MFA Required", cls: "warn" },
+      { text: "Dev/Test Only", cls: "" },
+      { text: "CI/CD Access", cls: "ok" },
+    ],
+    clouds: [
+      {
+        name: "AWS", icon: "🟠", accessLabel: "Full (Dev)", accessCls: "access-full",
+        services: [
+          { dot: "green", text: "EC2 — launch, stop, terminate (dev-*)" },
+          { dot: "green", text: "Lambda — deploy & invoke (non-prod)" },
+          { dot: "green", text: "S3 — read/write dev buckets" },
+          { dot: "yellow", text: "CloudWatch — read logs only" },
+          { dot: "red",   text: "IAM — no policy changes" },
+          { dot: "gray",  text: "Billing — no access" },
+        ],
+        mfa: "MFA enforced on console login"
+      },
+      {
+        name: "Azure", icon: "🔵", accessLabel: "Limited", accessCls: "access-limited",
+        services: [
+          { dot: "green",  text: "App Service — dev slot deploys" },
+          { dot: "yellow", text: "Azure Storage — read-only blobs" },
+          { dot: "yellow", text: "Monitor — read logs & metrics" },
+          { dot: "red",    text: "Azure AD — no role assignments" },
+          { dot: "gray",   text: "Production slots — blocked" },
+          { dot: "gray",   text: "Cost Management — no access" },
+        ],
+        mfa: "Conditional Access policy enforced"
+      },
+      {
+        name: "GCP", icon: "🟢", accessLabel: "Full (Dev)", accessCls: "access-full",
+        services: [
+          { dot: "green",  text: "Cloud Run — deploy dev services" },
+          { dot: "green",  text: "Cloud Build — trigger pipelines" },
+          { dot: "yellow", text: "GCS — read/write dev-* buckets" },
+          { dot: "yellow", text: "Cloud Logging — read" },
+          { dot: "red",    text: "IAM — no binding changes" },
+          { dot: "gray",   text: "Billing — no access" },
+        ],
+        mfa: "2-step verification required"
+      },
+      {
+        name: "Oracle Cloud", icon: "🔴", accessLabel: "Read Only", accessCls: "access-read",
+        services: [
+          { dot: "yellow", text: "Object Storage — read public buckets" },
+          { dot: "gray",   text: "Compute — no access" },
+          { dot: "gray",   text: "Networking — no access" },
+          { dot: "gray",   text: "Identity — no access" },
+          { dot: "gray",   text: "Database — no access" },
+          { dot: "gray",   text: "Cost & Governance — no access" },
+        ],
+        mfa: "OCI MFA required for console"
+      }
+    ]
+  },
+  {
+    id: "finance",
+    label: "Finance Analyst",
+    avatar: "📊",
+    title: "Finance Analyst",
+    role: "Finance · Read-only cost data · Export permissions for reporting",
+    tags: [
+      { text: "Read Only", cls: "" },
+      { text: "Cost Reports", cls: "ok" },
+      { text: "No Infra Access", cls: "warn" },
+    ],
+    clouds: [
+      {
+        name: "AWS", icon: "🟠", accessLabel: "Read Only", accessCls: "access-read",
+        services: [
+          { dot: "green",  text: "Cost Explorer — full read" },
+          { dot: "green",  text: "Billing Console — invoices & usage" },
+          { dot: "yellow", text: "S3 — read billing export bucket only" },
+          { dot: "gray",   text: "EC2 / Lambda — no access" },
+          { dot: "gray",   text: "IAM — no access" },
+          { dot: "gray",   text: "CloudWatch — no access" },
+        ],
+        mfa: "MFA required"
+      },
+      {
+        name: "Azure", icon: "🔵", accessLabel: "Read Only", accessCls: "access-read",
+        services: [
+          { dot: "green",  text: "Cost Management — read budgets & spend" },
+          { dot: "green",  text: "Billing — download invoices" },
+          { dot: "yellow", text: "Azure Storage — read cost export blobs" },
+          { dot: "gray",   text: "App Service — no access" },
+          { dot: "gray",   text: "Azure AD — no access" },
+          { dot: "gray",   text: "Monitor — no access" },
+        ],
+        mfa: "Conditional Access enforced"
+      },
+      {
+        name: "GCP", icon: "🟢", accessLabel: "Read Only", accessCls: "access-read",
+        services: [
+          { dot: "green",  text: "Billing — view reports & export" },
+          { dot: "yellow", text: "BigQuery — read billing dataset" },
+          { dot: "yellow", text: "GCS — read billing-export bucket" },
+          { dot: "gray",   text: "Compute / Cloud Run — no access" },
+          { dot: "gray",   text: "IAM — no access" },
+          { dot: "gray",   text: "Logging — no access" },
+        ],
+        mfa: "2-step verification required"
+      },
+      {
+        name: "Oracle Cloud", icon: "🔴", accessLabel: "Read Only", accessCls: "access-read",
+        services: [
+          { dot: "green",  text: "Cost Analysis — read usage reports" },
+          { dot: "yellow", text: "Object Storage — read cost CSVs" },
+          { dot: "gray",   text: "Compute — no access" },
+          { dot: "gray",   text: "Networking — no access" },
+          { dot: "gray",   text: "Identity — no access" },
+          { dot: "gray",   text: "Database — no access" },
+        ],
+        mfa: "OCI MFA required"
+      }
+    ]
+  },
+  {
+    id: "dataengineer",
+    label: "Data Engineer",
+    avatar: "🛠️",
+    title: "Data Engineer",
+    role: "Data Platform · ETL pipelines · Storage & analytics — no compute admin",
+    tags: [
+      { text: "MFA Required", cls: "warn" },
+      { text: "Data Platform", cls: "ok" },
+      { text: "No IAM", cls: "" },
+    ],
+    clouds: [
+      {
+        name: "AWS", icon: "🟠", accessLabel: "Full (Data)", accessCls: "access-full",
+        services: [
+          { dot: "green",  text: "S3 — read/write data-lake buckets" },
+          { dot: "green",  text: "Glue — create & run ETL jobs" },
+          { dot: "green",  text: "Athena — query, save results" },
+          { dot: "yellow", text: "Redshift — read access only" },
+          { dot: "red",    text: "EC2 — no access" },
+          { dot: "gray",   text: "IAM — no access" },
+        ],
+        mfa: "MFA enforced"
+      },
+      {
+        name: "Azure", icon: "🔵", accessLabel: "Limited", accessCls: "access-limited",
+        services: [
+          { dot: "green",  text: "Data Factory — author & run pipelines" },
+          { dot: "yellow", text: "Azure Data Lake Gen2 — read/write" },
+          { dot: "yellow", text: "Synapse Analytics — read workspace" },
+          { dot: "red",    text: "Azure AD — no access" },
+          { dot: "gray",   text: "App Service — no access" },
+          { dot: "gray",   text: "Networking — no access" },
+        ],
+        mfa: "Conditional Access enforced"
+      },
+      {
+        name: "GCP", icon: "🟢", accessLabel: "Full (Data)", accessCls: "access-full",
+        services: [
+          { dot: "green",  text: "BigQuery — create datasets, run jobs" },
+          { dot: "green",  text: "Dataflow — submit & manage jobs" },
+          { dot: "green",  text: "GCS — read/write data-* buckets" },
+          { dot: "yellow", text: "Pub/Sub — publish & subscribe" },
+          { dot: "red",    text: "Compute Engine — no access" },
+          { dot: "gray",   text: "IAM — no access" },
+        ],
+        mfa: "2-step verification required"
+      },
+      {
+        name: "Oracle Cloud", icon: "🔴", accessLabel: "Limited", accessCls: "access-limited",
+        services: [
+          { dot: "green",  text: "Object Storage — read/write data buckets" },
+          { dot: "yellow", text: "Autonomous DB — read schema only" },
+          { dot: "gray",   text: "Compute — no access" },
+          { dot: "gray",   text: "Networking — no access" },
+          { dot: "gray",   text: "Identity — no access" },
+          { dot: "gray",   text: "Cost Analysis — no access" },
+        ],
+        mfa: "OCI MFA required"
+      }
+    ]
+  },
+  {
+    id: "cloudadmin",
+    label: "Cloud Admin",
+    avatar: "🛡️",
+    title: "Cloud Administrator",
+    role: "Platform Engineering · Full production access · Break-glass with audit log",
+    tags: [
+      { text: "Break-Glass MFA", cls: "warn" },
+      { text: "Full Access", cls: "ok" },
+      { text: "All Environments", cls: "ok" },
+    ],
+    clouds: [
+      {
+        name: "AWS", icon: "🟠", accessLabel: "Full", accessCls: "access-full",
+        services: [
+          { dot: "green", text: "IAM — create roles, policies, users" },
+          { dot: "green", text: "EC2 / Lambda — all regions" },
+          { dot: "green", text: "S3 — all buckets incl. prod" },
+          { dot: "green", text: "CloudWatch — read/write alarms" },
+          { dot: "green", text: "Cost Explorer & Billing" },
+          { dot: "yellow", text: "Root account — no access (locked)" },
+        ],
+        mfa: "Hardware MFA token required; break-glass logged to CloudTrail"
+      },
+      {
+        name: "Azure", icon: "🔵", accessLabel: "Full", accessCls: "access-full",
+        services: [
+          { dot: "green", text: "Azure AD — manage users & groups" },
+          { dot: "green", text: "Subscriptions — owner role" },
+          { dot: "green", text: "App Service, AKS, VMs — full" },
+          { dot: "green", text: "Azure Policy — create & assign" },
+          { dot: "green", text: "Cost Management — full" },
+          { dot: "yellow", text: "Global Admin — PIM elevation only" },
+        ],
+        mfa: "PIM just-in-time activation required for Global Admin"
+      },
+      {
+        name: "GCP", icon: "🟢", accessLabel: "Full", accessCls: "access-full",
+        services: [
+          { dot: "green", text: "IAM — org-level role bindings" },
+          { dot: "green", text: "Compute Engine & Cloud Run — full" },
+          { dot: "green", text: "GCS — all buckets" },
+          { dot: "green", text: "Cloud Logging & Monitoring — full" },
+          { dot: "green", text: "Billing — full" },
+          { dot: "yellow", text: "Org policies — Owner + Policy Admin" },
+        ],
+        mfa: "2-step + security key required for org-level changes"
+      },
+      {
+        name: "Oracle Cloud", icon: "🔴", accessLabel: "Full", accessCls: "access-full",
+        services: [
+          { dot: "green", text: "Identity — manage compartments & policies" },
+          { dot: "green", text: "Compute — full (A1, E4, X9)" },
+          { dot: "green", text: "Object Storage — all buckets" },
+          { dot: "green", text: "Networking — VCN, subnets, gateways" },
+          { dot: "green", text: "Cost & Governance — full" },
+          { dot: "yellow", text: "Tenancy admin — break-glass only" },
+        ],
+        mfa: "OCI MFA + audit event notification required"
+      }
+    ]
+  }
+];
+
+function renderPersona(p) {
+  // Header
+  document.getElementById("persona-header").innerHTML = `
+    <div class="persona-header">
+      <div class="persona-avatar">${p.avatar}</div>
+      <div class="persona-info">
+        <h2>${p.title}</h2>
+        <div class="role">${p.role}</div>
+        <div class="tags">${p.tags.map(t => `<span class="tag ${t.cls}">${t.text}</span>`).join("")}</div>
+      </div>
+    </div>
+  `;
+
+  // Cloud cards
+  document.getElementById("cloud-grid").innerHTML = p.clouds.map(c => `
+    <div class="cloud-card">
+      <div class="cloud-card-header">
+        <span class="cloud-icon">${c.icon}</span>
+        ${c.name}
+        <span class="access-badge ${c.accessCls}">${c.accessLabel}</span>
+      </div>
+      <ul class="service-list">
+        ${c.services.map(s => `
+          <li><span class="dot dot-${s.dot}"></span>${s.text}</li>
+        `).join("")}
+      </ul>
+      <div class="mfa-notice">🔐 ${c.mfa}</div>
+    </div>
+  `).join("");
+}
+
+function renderTabs(activeId) {
+  document.getElementById("tabs").innerHTML = PERSONAS.map(p => `
+    <button class="tab ${p.id === activeId ? 'active' : ''}" onclick="selectPersona('${p.id}')">
+      <span class="avatar">${p.avatar}</span> ${p.label}
+    </button>
+  `).join("");
+}
+
+function selectPersona(id) {
+  const p = PERSONAS.find(x => x.id === id);
+  renderTabs(id);
+  renderPersona(p);
+}
+
+// Init
+selectPersona("developer");
+</script>
+</body>
+</html>
